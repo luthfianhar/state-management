@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build",
+    "predeploy": "gh-pages -d dist -r https://github.com/luthfianhar/state-management.git"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
