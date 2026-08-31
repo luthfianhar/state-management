@@ -1,30 +1,37 @@
-import { ReviewContext } from '@/context/ReviewContext';
 import { useContext } from 'react';
 import {
-  Star,
-  UserRound,
-  Clock3,
-  Package,
+  MessageCircle,
+  User,
   Trash2,
+  Clock,
 } from 'lucide-react';
 
-export default function ReviewList() {
-  const { state, deleteReview } = useContext(ReviewContext);
+import { ReviewContext } from '../context/ReviewContext';
 
+export default function ReviewList() {
+  const { state, deleteReview } =
+    useContext(ReviewContext);
+
+  // Kalau belum ada review
   if (!state.review) {
     return (
-      <section className="flex min-h-[220px] flex-col items-center justify-center rounded-3xl border border-dashed border-white/10 bg-slate-900/40 px-6 text-center">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5">
-          <Star className="h-6 w-6 text-slate-600" />
+      <section className="relative flex min-h-[500px] items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-slate-900/50 p-8 backdrop-blur-xl">
+        
+        <div className="text-center">
+
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+            <MessageCircle className="h-7 w-7 text-slate-600" />
+          </div>
+
+          <h2 className="text-lg font-semibold text-slate-300">
+            Belum Ada Ulasan
+          </h2>
+
+          <p className="mt-2 text-sm text-slate-600">
+            Ulasan yang kamu kirim akan muncul di sini.
+          </p>
+
         </div>
-
-        <h3 className="font-semibold text-slate-300">
-          Belum Ada Ulasan
-        </h3>
-
-        <p className="mt-2 max-w-xs text-sm text-slate-600">
-          Ulasan yang kamu kirim akan muncul di sini.
-        </p>
       </section>
     );
   }
@@ -36,82 +43,65 @@ export default function ReviewList() {
     id,
   } = state.review;
 
-  const handleDelete = () => {
-    const confirmDelete = window.confirm(
-      'Apakah kamu yakin ingin menghapus ulasan ini?'
-    );
-
-    if (confirmDelete) {
-      deleteReview();
-    }
-  };
-
   return (
-    <section className="space-y-4">
+    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
 
-      {/* Heading */}
-      <div className="flex items-center justify-between">
+      {/* Header */}
+      <div className="mb-6 flex items-center justify-between">
+
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-indigo-400">
-            Latest Feedback
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-cyan-400">
+            Your Review
           </p>
 
-          <h2 className="mt-1 text-xl font-bold text-white">
-            Ulasan Terbaru
+          <h2 className="mt-1 text-2xl font-bold text-white">
+            Ulasan Kamu
           </h2>
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-          <Star className="h-4 w-4 text-amber-400" />
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
+          <MessageCircle className="h-5 w-5 text-indigo-400" />
         </div>
+
       </div>
 
       {/* Review Card */}
-      <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70 p-6 shadow-xl backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/30">
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950/60 p-5">
 
-        {/* Top Gradient */}
-        <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-60" />
+        {/* Gradient Line */}
+        <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-indigo-500 via-cyan-400 to-indigo-500" />
 
         {/* Product */}
-        <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10">
-            <Package className="h-5 w-5 text-cyan-400" />
-          </div>
+        <div className="flex items-start justify-between gap-4">
 
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-600">
-              Product
-            </p>
+            <span className="inline-flex rounded-lg border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">
+              {productName}
+            </span>
 
-            <p className="font-semibold text-cyan-300">
-              {productName || 'Produk Umum'}
+            <p className="mt-4 text-base leading-7 text-slate-200">
+              "{comment}"
             </p>
           </div>
+
         </div>
 
-        {/* Comment */}
-        <div className="rounded-2xl border border-white/5 bg-black/10 p-5">
-          <p className="text-base leading-7 text-slate-300">
-            “{comment}”
-          </p>
-        </div>
+        {/* Info */}
+        <div className="mt-6 flex flex-col gap-3 border-t border-white/5 pt-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
 
-        {/* User + Time */}
-        <div className="mt-5 flex flex-col gap-3 border-t border-white/5 pt-4 sm:flex-row sm:items-center sm:justify-between">
-
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <UserRound className="h-4 w-4" />
+          <div className="flex items-center gap-2">
+            <User className="h-4 w-4 text-indigo-400" />
 
             <span>
               Diulas oleh{' '}
-              <span className="font-semibold text-slate-300">
+              <span className="font-medium text-slate-300">
                 {reviewerName}
               </span>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-600">
-            <Clock3 className="h-4 w-4" />
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
 
             <span>
               {new Date(id).toLocaleTimeString([], {
@@ -120,13 +110,14 @@ export default function ReviewList() {
               })}
             </span>
           </div>
+
         </div>
 
         {/* Delete Button */}
         <button
           type="button"
-          onClick={handleDelete}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/5 px-4 py-2.5 text-sm font-medium text-rose-400 transition-all duration-300 hover:border-rose-500/40 hover:bg-rose-500/10 hover:text-rose-300"
+          onClick={deleteReview}
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/5 px-4 py-2.5 text-sm font-medium text-rose-400 transition-all hover:border-rose-500/40 hover:bg-rose-500/10 hover:text-rose-300 active:scale-[0.98]"
         >
           <Trash2 className="h-4 w-4" />
           Hapus Ulasan
