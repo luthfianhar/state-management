@@ -1,8 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
-import { myRouter } from './routes';
+
 import { ReviewProvider } from './context/ReviewContext';
+import { myRouter } from './routes';
+
 import './styles/index.css';
 
 createRoot(document.getElementById('root')).render(
@@ -10,5 +12,5 @@ createRoot(document.getElementById('root')).render(
     <ReviewProvider>
       <RouterProvider router={myRouter} />
     </ReviewProvider>
-  </StrictMode>,
+  </StrictMode>
 );
